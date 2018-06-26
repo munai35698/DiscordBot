@@ -5,9 +5,9 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using This = ZoneTest.ClientManager;
+using This = DiscordBot.Client.ClientManager;
 
-namespace ZoneTest
+namespace DiscordBot.Client
 {
     public class ClientManager
     {

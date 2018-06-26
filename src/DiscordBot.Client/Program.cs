@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZoneTest
+namespace DiscordBot.Client
 {
     class Program
     {

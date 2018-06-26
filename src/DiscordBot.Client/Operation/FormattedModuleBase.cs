@@ -4,7 +4,7 @@ using Discord;
 using Discord.Commands;
 
 
-namespace ZoneTest.Operation
+namespace DiscordBot.Client.Operation
 {
     public class FormattedModuleBase : ModuleBase
     {

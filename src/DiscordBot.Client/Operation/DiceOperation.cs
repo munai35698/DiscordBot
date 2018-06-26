@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Discord.Commands;
-using ZoneTest.Operation;
 
-using This = ZoneTest.Operation.DiceOperation;
-//using This = ZoneTest.DiceOperation;
+using This = DiscordBot.Client.Operation.DiceOperation;
 
-namespace ZoneTest.Operation
-//namespace ZoneTest
+namespace DiscordBot.Client.Operation
 {
     public class DiceOperation : FormattedModuleBase
     {

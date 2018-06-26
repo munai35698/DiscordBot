@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using This = ZoneTest.AppSettings;
+using This = DiscordBot.Client.AppSettings;
 
-namespace ZoneTest
+namespace DiscordBot.Client
 {
     public static class AppSettings
     {

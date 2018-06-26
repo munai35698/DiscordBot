@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Discord.Commands;
 
-namespace ZoneTest.Operation
+namespace DiscordBot.Client.Operation
 {
     public class HrOperaion : ModuleBase
     {
