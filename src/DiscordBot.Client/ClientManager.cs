@@ -9,7 +9,7 @@ using This = DiscordBot.Client.ClientManager;
 
 namespace DiscordBot.Client
 {
-    public class ClientManager
+    public class ClientManager : IDisposable
     {
         private static DiscordSocketClient Client { get; set; }
         private static CommandService CommandService { get; set; }
@@ -45,16 +45,16 @@ namespace DiscordBot.Client
             //foreach (var unit in types)
             //    await This.CommandService.AddModuleAsync(unit);
 
-            await This.Client.LoginAsync(TokenType.Bot, This.AccessToken);
-            await This.Client.StartAsync();
+            await This.Client.LoginAsync(TokenType.Bot, This.AccessToken).ConfigureAwait(false);
+            await This.Client.StartAsync().ConfigureAwait(false);
         }
 
         public async Task CloseAsync()
         {
             if(This.Client.LoginState == LoginState.LoggedIn)
             {
-                await This.Client.StopAsync();
-                await This.Client.LogoutAsync();
+                await This.Client.StopAsync().ConfigureAwait(false);
+                await This.Client.LogoutAsync().ConfigureAwait(false);
             }
         }
 
@@ -74,21 +74,43 @@ namespace DiscordBot.Client
                 return;
 
             var argPos = 0;
-            
+
             if (!(message.HasCharPrefix('\\', ref argPos) ||
                 message.HasMentionPrefix(This.Client.CurrentUser, ref argPos)))
                 return;
 
             var context = new CommandContext(This.Client, message);
-            // 実行
-            var result = await This.CommandService.ExecuteAsync(context, argPos, This.ServiceProvider);
 
-            //実行できなかった場合
-            if (!result.IsSuccess)
-                await context.Channel.SendMessageAsync($"{DateTime.Now} {context.User.Mention} : {context.Message}{Environment.NewLine}Error({result.ErrorReason})");
+            try
+            {
+                // 実行
+                var result = await This.CommandService.ExecuteAsync(context, argPos, This.ServiceProvider).ConfigureAwait(false);
+
+                //実行できなかった場合
+                if (!result.IsSuccess)
+                    await context.Channel.SendMessageAsync(
+                        $"{DateTime.Now} {context.User.Mention} : {context.Message}{Environment.NewLine}Error({result.ErrorReason})"
+                    ).ConfigureAwait(false);
+            }
+            catch
+            {
+                await context.Channel.SendMessageAsync(
+                       $"{DateTime.Now} {context.User.Mention} : {context.Message}{Environment.NewLine}Error(不明なエラーが発生しました。)"
+                   ).ConfigureAwait(false);
+            }
+            
 
             //await context.Channel.DeleteMessagesAsync(new[] { context.Message.Id }).ConfigureAwait(false);
         }
 
+        #region インターフェースの実装
+
+        public void Dispose()
+        {
+            var closing = this.CloseAsync();
+            closing.Wait();
+        }
+
+        #endregion
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Operation\DiceOperation.cs" />
     <Compile Include="Operation\FormattedModuleBase.cs" />
     <Compile Include="Operation\HrOperaion.cs" />
+    <Compile Include="Operation\TimerOperation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

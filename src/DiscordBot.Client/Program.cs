@@ -8,24 +8,20 @@ namespace DiscordBot.Client
         {
             var token = AppSettings.AccessToken;
 
-            var client = new ClientManager(token);
-            try
+            using (var client = new ClientManager(token))
             {
-                var waiting = client.WaitMessageAsync();
-                waiting.Wait();
+                try
+                {
+                    var waiting = client.WaitMessageAsync();
+                    waiting.Wait();
 
-                Console.ReadLine();
+                    Console.ReadLine();
+                }
+                catch (Exception ex)
+                {
+                    var aaa = ex;
+                }
             }
-            catch(Exception ex)
-            {
-                var aaa = ex;
-            }
-            finally
-            {
-                var dispoing = client.CloseAsync();
-                dispoing.Wait();
-            }
-
         }
     }
 }
